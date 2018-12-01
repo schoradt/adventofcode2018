@@ -23,7 +23,7 @@ namespace AoC2018.Lib
         {
             string[] freqs = input.Split(',');
 
-            var results = new List<int>();
+            var results = new HashSet<int>();
 
             int result = 0;
 
