@@ -15,4 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AoC2018.Lib\AoC2018.Lib.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="EmptyClass.cs" />
+  </ItemGroup>
 </Project>
