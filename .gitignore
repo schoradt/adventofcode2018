@@ -13,6 +13,7 @@ Makefile.in
 *.sln.cache
 *.suo
 *.cache
+*.Cache
 *.pidb
 *.userprefs
 *.usertasks
