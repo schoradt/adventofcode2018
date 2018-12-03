@@ -26,6 +26,7 @@ namespace AoC2018
 
             runner.Day01();
             runner.Day02();
+            runner.Day03();
         }
 
         /// <summary>
@@ -51,7 +52,17 @@ namespace AoC2018
             string[] lines = System.IO.File.ReadAllLines(@"data/day02.txt");
 
             Console.WriteLine("Day 02 Part 1: " + day02.Part1(lines));
-            Console.WriteLine("Day 01 Part 2: " + day02.Part2(lines));
+            Console.WriteLine("Day 02 Part 2: " + day02.Part2(lines));
+        }
+
+        public void Day03()
+        {
+            Day03 day03 = new Day03();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day03.txt");
+
+            Console.WriteLine("Day 03 Part 1: " + day03.Part1(lines));
+            Console.WriteLine("Day 03 Part 2: " + day03.Part2(lines));
         }
     }
 }
