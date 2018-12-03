@@ -1,23 +1,26 @@
-﻿
+﻿// <copyright file="Day03.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
 namespace AoC2018.Lib
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
+    /// <summary>
+    /// The solution for the day 2 of the advent of code 2018.
+    /// </summary>
     public class Day03
     {
-        public int Part1(string[] lines)
+        /// <summary>
+        /// Compute the number of fields that are spanned from multiple claims.
+        /// </summary>
+        /// <returns>Number of multiple used fields.</returns>
+        /// <param name="claims">List of claims.</param>
+        public int Part1(List<Claim> claims)
         {
-            List<Claim> claims = new List<Claim>();
-
-            foreach (string line in lines)
-            {
-                Claim claim = new Claim(line);
-
-                claims.Add(claim);
-            }
-
             HashSet<Tuple<int, int>> overlaps = new HashSet<Tuple<int, int>>();
 
             List<Claim> claims2 = new List<Claim>(claims);
@@ -37,17 +40,13 @@ namespace AoC2018.Lib
             return overlaps.Count;
         }
 
-        public int Part2(string[] lines)
+        /// <summary>
+        /// Compute the claim that is not spaned by any other claim.
+        /// </summary>
+        /// <returns>The claim number.</returns>
+        /// <param name="claims">List of claims.</param>
+        public int Part2(List<Claim> claims)
         {
-            List<Claim> claims = new List<Claim>();
-
-            foreach (string line in lines)
-            {
-                Claim claim = new Claim(line);
-
-                claims.Add(claim);
-            }
-
             foreach (Claim c1 in claims)
             {
                 List<Claim> claims2 = new List<Claim>(claims);
@@ -63,7 +62,8 @@ namespace AoC2018.Lib
                     overlaps.UnionWith(overlap);
                 }
 
-                if (overlaps.Count == 0) {
+                if (overlaps.Count == 0)
+                {
                     return c1.Number;
                 }
             }
@@ -71,17 +71,59 @@ namespace AoC2018.Lib
             return -1;
         }
 
+        /// <summary>
+        /// Parses the claims.
+        /// </summary>
+        /// <returns>The claims.</returns>
+        /// <param name="lines">Claim description lines.</param>
+        public List<Claim> ParseClaims(string[] lines)
+        {
+            List<Claim> claims = new List<Claim>();
 
+            foreach (string line in lines)
+            {
+                Claim claim = new Claim(line);
+
+                claims.Add(claim);
+            }
+
+            return claims;
+        }
+
+        /// <summary>
+        /// Claim class.
+        /// </summary>
         public class Claim
         {
+            /// <summary>
+            /// Claim number.
+            /// </summary>
             private readonly int number;
 
+            /// <summary>
+            /// Claim left edge x.
+            /// </summary>
             private readonly int edgeX;
+
+            /// <summary>
+            /// Claim left edge y.
+            /// </summary>
             private readonly int edgeY;
 
+            /// <summary>
+            /// Claim width.
+            /// </summary>
             private readonly int width;
+
+            /// <summary>
+            /// Claim heigth.
+            /// </summary>
             private readonly int height;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:AoC2018.Lib.Day03.Claim"/> class.
+            /// </summary>
+            /// <param name="line">Claim description string.</param>
             public Claim(string line)
             {
                 int posAt = line.IndexOf('@');
@@ -100,40 +142,63 @@ namespace AoC2018.Lib
                 this.height = int.Parse(line.Substring(posX + 1));
             }
 
-            public override string ToString() {
+            /// <summary>
+            /// Gets the number.
+            /// </summary>
+            /// <value>The number.</value>
+            public int Number
+            {
+                get => this.number;
+            }
+
+            /// <summary>
+            /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:AoC2018.Lib.Day03.Claim"/>.
+            /// </summary>
+            /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:AoC2018.Lib.Day03.Claim"/>.</returns>
+            public override string ToString()
+            {
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append("#");
                 sb.Append(this.number);
                 sb.Append(" @ ");
-                sb.Append(edgeX);
+                sb.Append(this.edgeX);
                 sb.Append(",");
-                sb.Append(edgeY);
+                sb.Append(this.edgeY);
                 sb.Append(": ");
-                sb.Append(width);
+                sb.Append(this.width);
                 sb.Append("x");
-                sb.Append(height);
+                sb.Append(this.height);
 
                 return sb.ToString();
             }
 
-            public int Number
+            /// <summary>
+            /// Test if the position is inside the claim.
+            /// </summary>
+            /// <returns><c>true</c>, if x,y is in claim, <c>false</c> otherwise.</returns>
+            /// <param name="x">The x coordinate.</param>
+            /// <param name="y">The y coordinate.</param>
+            public bool IsIn(int x, int y)
             {
-                get => number;
+                return (x >= this.edgeX && x < this.edgeX + this.width) && (y >= this.edgeY && y < this.edgeY + this.height);
             }
 
-            public bool IsIn(int x, int y) {
-                return (x >= this.edgeX && x < edgeX + width) && (y >= edgeY && y < edgeY + height);
-            }
-
-            public HashSet<Tuple<int, int>> Overlap(Claim c) {
+            /// <summary>
+            /// Overlap the specified c.
+            /// </summary>
+            /// <returns>The overlaping coordinates.</returns>
+            /// <param name="c">The claim to  compare</param>
+            public HashSet<Tuple<int, int>> Overlap(Claim c)
+            {
                 HashSet<Tuple<int, int>> overlaps = new HashSet<Tuple<int, int>>();
 
-                for (int i = edgeX; i < edgeX + width; i++)
+                for (int i = this.edgeX; i < this.edgeX + this.width; i++)
                 {
-                    for (int j = edgeY; j < edgeY + height; j++)
+                    for (int j = this.edgeY; j < this.edgeY + this.height; j++)
                     {
-                        if (c.IsIn(i, j)) {
+                        if (c.IsIn(i, j))
+                        {
                             overlaps.Add(new Tuple<int, int>(i, j));
                         }
                     }

@@ -1,4 +1,8 @@
-﻿
+﻿// <copyright file="Day03Test.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
 namespace AoC2018.Test
 {
     using System;
@@ -6,8 +10,14 @@ namespace AoC2018.Test
     using AoC2018.Lib;
     using Xunit;
 
+    /// <summary>
+    /// Day03 test.
+    /// </summary>
     public class Day03Test
     {
+        /// <summary>
+        /// Tests the part1.
+        /// </summary>
         [Fact]
         public void TestPart1()
         {
@@ -15,9 +25,12 @@ namespace AoC2018.Test
 
             Day03 day03 = new Day03();
 
-            Assert.Equal(4, day03.Part1(input));
+            Assert.Equal(4, day03.Part1(day03.ParseClaims(input)));
         }
 
+        /// <summary>
+        /// Tests the part2.
+        /// </summary>
         [Fact]
         public void TestPart2()
         {
@@ -25,8 +38,7 @@ namespace AoC2018.Test
 
             Day03 day03 = new Day03();
 
-            Assert.Equal(3, day03.Part2(input));
+            Assert.Equal(3, day03.Part2(day03.ParseClaims(input)));
         }
-
     }
 }
