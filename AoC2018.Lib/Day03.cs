@@ -103,12 +103,22 @@ namespace AoC2018.Lib
             /// <summary>
             /// Claim left edge x.
             /// </summary>
-            private readonly int edgeX;
+            private readonly int startX;
 
             /// <summary>
             /// Claim left edge y.
             /// </summary>
-            private readonly int edgeY;
+            private readonly int startY;
+
+            /// <summary>
+            /// Claim left edge x.
+            /// </summary>
+            private readonly int endX;
+
+            /// <summary>
+            /// Claim left edge y.
+            /// </summary>
+            private readonly int endY;
 
             /// <summary>
             /// Claim width.
@@ -133,13 +143,16 @@ namespace AoC2018.Lib
                 int posComma = line.IndexOf(',');
                 int posColon = line.IndexOf(':');
 
-                this.edgeX = int.Parse(line.Substring(posAt + 1, posComma - posAt - 1));
-                this.edgeY = int.Parse(line.Substring(posComma + 1, posColon - posComma - 1));
+                this.startX = int.Parse(line.Substring(posAt + 1, posComma - posAt - 1));
+                this.startY = int.Parse(line.Substring(posComma + 1, posColon - posComma - 1));
 
                 int posX = line.IndexOf('x');
 
                 this.width = int.Parse(line.Substring(posColon + 1, posX - posColon - 1));
                 this.height = int.Parse(line.Substring(posX + 1));
+
+                this.endX = this.startX + this.width;
+                this.endY = this.startY + this.height;
             }
 
             /// <summary>
@@ -162,9 +175,9 @@ namespace AoC2018.Lib
                 sb.Append("#");
                 sb.Append(this.number);
                 sb.Append(" @ ");
-                sb.Append(this.edgeX);
+                sb.Append(this.startX);
                 sb.Append(",");
-                sb.Append(this.edgeY);
+                sb.Append(this.startY);
                 sb.Append(": ");
                 sb.Append(this.width);
                 sb.Append("x");
@@ -181,7 +194,7 @@ namespace AoC2018.Lib
             /// <param name="y">The y coordinate.</param>
             public bool IsIn(int x, int y)
             {
-                return (x >= this.edgeX && x < this.edgeX + this.width) && (y >= this.edgeY && y < this.edgeY + this.height);
+                return this.startX <= x && x < this.endX && y >= this.startY && y < this.endY;
             }
 
             /// <summary>
@@ -193,9 +206,9 @@ namespace AoC2018.Lib
             {
                 HashSet<Tuple<int, int>> overlaps = new HashSet<Tuple<int, int>>();
 
-                for (int i = this.edgeX; i < this.edgeX + this.width; i++)
+                for (int i = this.startX; i < this.endX; i++)
                 {
-                    for (int j = this.edgeY; j < this.edgeY + this.height; j++)
+                    for (int j = this.startY; j < this.endY; j++)
                     {
                         if (c.IsIn(i, j))
                         {
