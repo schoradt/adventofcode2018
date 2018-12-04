@@ -30,9 +30,9 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            //runner.Day01();
-            //runner.Day02();
-            //runner.Day03();
+            runner.Day01();
+            runner.Day02();
+            runner.Day03();
             runner.Day04();
         }
 
@@ -69,7 +69,7 @@ namespace AoC2018
         }
 
         /// <summary>
-        /// Process the work for day 2 solution.
+        /// Process the work for day 3 solution.
         /// </summary>
         public void Day03()
         {
@@ -79,7 +79,6 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             List<Day03.Claim> claims = day03.ParseClaims(lines);
-            Console.WriteLine("parse " + claims.Count + " claims in " + this.sw.ElapsedMilliseconds + " ms");
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 03 Part 1: " + day03.Part1(claims) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
@@ -88,6 +87,9 @@ namespace AoC2018
             Console.WriteLine("Day 03 Part 2: " + day03.Part2(claims) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Process the solutions for day 4.
+        /// </summary>
         public void Day04()
         {
             Day04 day04 = new Day04();
