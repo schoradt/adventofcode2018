@@ -2,6 +2,7 @@
 //     GPL v3
 // </copyright>
 // <author>Sven Schoradt</author>
+using System;
 
 namespace AoC2018.Lib
 {
@@ -21,34 +22,24 @@ namespace AoC2018.Lib
         /// <param name="line">The fabric structure.</param>
         public int Part1(string line)
         {
-            int count = line.Count();
+            HashSet<char> chars = new HashSet<char>();
+
+            foreach (char c in line)
+            {
+                chars.Add(char.ToLower(c));
+            }
+
+            int count;
 
             do
             {
                 count = line.Count();
 
-                StringBuilder sb = new StringBuilder();
-                int i;
-
-                for (i = 0; i < count - 1; i++)
+                foreach (char c in chars)
                 {
-                    if (line[i] != line[i + 1] && char.ToUpper(line[i]) == char.ToUpper(line[i + 1]))
-                    {
-                        // remove 
-                        i++;
-                    }
-                    else
-                    {
-                        sb.Append(line[i]);
-                    }
+                    line = line.Replace("" + c + char.ToUpper(c), string.Empty);
+                    line = line.Replace("" + char.ToUpper(c) + c, string.Empty);
                 }
-
-                if (i < count)
-                {
-                    sb.Append(line[i]);
-                }
-
-                line = sb.ToString();
             }
             while (count > line.Count() && line.Any());
 
@@ -75,17 +66,10 @@ namespace AoC2018.Lib
             {
                 string testLine = line;
 
-                StringBuilder sb = new StringBuilder();
+                testLine = testLine.Replace("" + remove, string.Empty);
+                testLine = testLine.Replace("" + char.ToUpper(remove), string.Empty);
 
-                foreach (char c in line)
-                {
-                    if (!(c == remove || c == char.ToUpper(remove)))
-                    {
-                        sb.Append(c);
-                    } 
-                }
-
-                int react = this.Part1(sb.ToString());
+                int react = this.Part1(testLine);
 
                 if (react < min)
                 {

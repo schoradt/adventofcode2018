@@ -13,5 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="data\day04test.txt" />
+    <None Remove="StyleCop.Cache" />
+    <None Remove="data\day05test.txt" />
   </ItemGroup>
 </Project>
