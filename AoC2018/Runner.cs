@@ -34,6 +34,7 @@ namespace AoC2018
             runner.Day02();
             runner.Day03();
             runner.Day04();
+            runner.Day05();
         }
 
         /// <summary>
@@ -101,6 +102,24 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 04 Part 2: " + day04.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        /// <summary>
+        /// Process the solutions for day 5.
+        /// </summary>
+        public void Day05()
+        {
+            Day05 day05 = new Day05();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day05.txt");
+
+            string line = lines[0];
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 05 Part 1: " + day05.Part1(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 05 Part 2: " + day05.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
