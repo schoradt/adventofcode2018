@@ -37,6 +37,7 @@ namespace AoC2018
             runner.Day05();
             runner.Day06();
             runner.Day07();
+            runner.Day08();
         }
 
         /// <summary>
@@ -148,6 +149,20 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 07 Part 2: " + day07.Part2(lines, 5, 60) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        public void Day08()
+        {
+            Day08 day08 = new Day08();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day08.txt");
+            string line = lines[0];
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 08 Part 1: " + day08.Part1(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 08 Part 2: " + day08.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
