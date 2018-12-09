@@ -30,14 +30,16 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            runner.Day01();
+            /*runner.Day01();
             runner.Day02();
             runner.Day03();
             runner.Day04();
             runner.Day05();
             runner.Day06();
             runner.Day07();
-            runner.Day08();
+            runner.Day08();*/
+            runner.Day09();
+
         }
 
         /// <summary>
@@ -163,6 +165,20 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 08 Part 2: " + day08.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        public void Day09()
+        {
+            Day09 day09 = new Day09();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day09.txt");
+            string line = lines[0];
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 09 Part 1: " + day09.Part1(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 09 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
