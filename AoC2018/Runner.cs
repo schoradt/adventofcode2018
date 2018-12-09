@@ -30,16 +30,15 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            /*runner.Day01();
+            runner.Day01();
             runner.Day02();
             runner.Day03();
             runner.Day04();
             runner.Day05();
             runner.Day06();
             runner.Day07();
-            runner.Day08();*/
+            runner.Day08();
             runner.Day09();
-
         }
 
         /// <summary>
