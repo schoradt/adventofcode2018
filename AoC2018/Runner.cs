@@ -30,17 +30,17 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            runner.Day01();
-            runner.Day02();
-            runner.Day03();
-            runner.Day04();
-            runner.Day05();
-            runner.Day06();
-            runner.Day07();
-            runner.Day08();
-            runner.Day09();
+            //runner.Day01();
+            //runner.Day02();
+            //runner.Day03();
+            //runner.Day04();
+            //runner.Day05();
+            //runner.Day06();
+            //runner.Day07();
+            //runner.Day08();
+            //runner.Day09();
             //runner.Day10();
-
+            runner.Day11();
         }
 
         /// <summary>
@@ -194,6 +194,17 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             //Console.WriteLine("Day 10 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        public void Day11()
+        {
+            Day11 day11 = new Day11();
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 11 Part 1: " + day11.Part1(9424) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            //Console.WriteLine("Day 11 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
