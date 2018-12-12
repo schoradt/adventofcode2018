@@ -1,11 +1,21 @@
-﻿using System;
+﻿// <copyright file="Day07Test.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
 namespace AoC2018.Test
 {
     using AoC2018.Lib;
     using Xunit;
 
+    /// <summary>
+    /// Day07 test.
+    /// </summary>
     public class Day07Test
     {
+        /// <summary>
+        /// Tests the part1.
+        /// </summary>
         [Fact]
         public void TestPart1()
         {
@@ -25,6 +35,9 @@ namespace AoC2018.Test
             Assert.Equal("CABDFE", day07.Part1(input));
         }
 
+        /// <summary>
+        /// Tests the part2.
+        /// </summary>
         [Fact]
         public void TestPart2()
         {

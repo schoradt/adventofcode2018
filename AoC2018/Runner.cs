@@ -39,8 +39,12 @@ namespace AoC2018
             runner.Day07();
             runner.Day08();
             runner.Day09();
-            //runner.Day10();
-            //runner.Day11();
+
+            // need optimisation or more work to include into the
+            // general run
+            // runner.Day10();
+            // runner.Day11();
+            runner.Day12();
         }
 
         /// <summary>
@@ -128,6 +132,9 @@ namespace AoC2018
             Console.WriteLine("Day 05 Part 2: " + day05.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day06 sulution runner
+        /// </summary>
         public void Day06()
         {
             Day06 day06 = new Day06();
@@ -141,6 +148,9 @@ namespace AoC2018
             Console.WriteLine("Day 06 Part 2: " + day06.Part2(lines, 10000) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day07 solution runner.
+        /// </summary>
         public void Day07()
         {
             Day07 day07 = new Day07();
@@ -154,6 +164,9 @@ namespace AoC2018
             Console.WriteLine("Day 07 Part 2: " + day07.Part2(lines, 5, 60) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day08 solution runner.
+        /// </summary>
         public void Day08()
         {
             Day08 day08 = new Day08();
@@ -168,6 +181,9 @@ namespace AoC2018
             Console.WriteLine("Day 08 Part 2: " + day08.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day09 solution runner.
+        /// </summary>
         public void Day09()
         {
             Day09 day09 = new Day09();
@@ -182,20 +198,26 @@ namespace AoC2018
             Console.WriteLine("Day 09 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day10 solution runner.
+        /// </summary>
         public void Day10()
         {
             Day10 day10 = new Day10();
 
             string[] lines = System.IO.File.ReadAllLines(@"data/day10.txt");
-            //string line = lines[0];
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 10 Part 1: " + day10.Part1(lines, 10125) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
 
             this.sw = Stopwatch.StartNew();
-            //Console.WriteLine("Day 10 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            // Console.WriteLine("Day 10 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
+        /// <summary>
+        /// Day11 solution runner.
+        /// </summary>
         public void Day11()
         {
             Day11 day11 = new Day11();
@@ -205,6 +227,22 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 11 Part 2: " + day11.Part2(9424) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        /// <summary>
+        /// Day12 solution runner.
+        /// </summary>
+        public void Day12()
+        {
+            Day12 day12 = new Day12();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day12.txt");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 12 Part 1: " + day12.Part1(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 12 Part 2: " + day12.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }

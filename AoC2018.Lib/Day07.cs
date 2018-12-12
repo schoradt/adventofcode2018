@@ -1,25 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="Day07.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
 
 namespace AoC2018.Lib
 {
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Day07 solution class.
+    /// </summary>
     public class Day07
     {
+        /// <summary>
+        /// Part one of the puzzle solution.
+        /// </summary>
+        /// <returns>Instruction order.</returns>
+        /// <param name="lines">Puzzle input.</param>
         public string Part1(string[] lines)
         {
             SortedSet<TreeNode> nodes = this.ParseTree(lines);
 
             HashSet<TreeNode> ready = new HashSet<TreeNode>();
 
-            string res = "";
+            string res = string.Empty;
 
             while (nodes.Count > 0)
             {
                 // process
                 foreach (TreeNode node in nodes)
                 {
-                    //Console.WriteLine("check " + node.Name);
-
                     if (node.IsReady(ready))
                     {
                         ready.Add(node);
@@ -38,6 +48,13 @@ namespace AoC2018.Lib
             return res;
         }
 
+        /// <summary>
+        /// Solution of part two of the puzzle.
+        /// </summary>
+        /// <returns>Time to process all the steps.</returns>
+        /// <param name="lines">Puzzle input.</param>
+        /// <param name="workers">Number of workers.</param>
+        /// <param name="baseTime">Base time.</param>
         public int Part2(string[] lines, int workers, int baseTime)
         {
             SortedSet<TreeNode> nodes = this.ParseTree(lines);
@@ -51,7 +68,7 @@ namespace AoC2018.Lib
                 work[i] = null;
             }
 
-            string res = "";
+            string res = string.Empty;
             int second = 0;
 
             while (true)
@@ -73,7 +90,7 @@ namespace AoC2018.Lib
                     }
                 }
 
-                while (nodes.Count > 0 && OpenWorkers(work))
+                while (nodes.Count > 0 && this.OpenWorkers(work))
                 {
                     bool b = false;
 
@@ -89,7 +106,7 @@ namespace AoC2018.Lib
                                     b = true;
 
                                     work[i] = node;
-                                    node.Finished = (second + baseTime + ((int)node.Name[0]) - 64);
+                                    node.Finished = second + baseTime + ((int)node.Name[0]) - 64;
 
                                     nodes.Remove(node);
 
@@ -101,10 +118,13 @@ namespace AoC2018.Lib
                         }
                     }
 
-                    if (!b) break;
+                    if (!b)
+                    {
+                        break;
+                    }
                 }
 
-                if (nodes.Count == 0 && NoWorkers(work))
+                if (nodes.Count == 0 && this.NoWorkers(work))
                 {
                     break;
                 }
@@ -115,9 +135,14 @@ namespace AoC2018.Lib
             return second;
         }
 
+        /// <summary>
+        /// Are there opens the workers.
+        /// </summary>
+        /// <returns>true if there are workers without work.</returns>
+        /// <param name="work">Worker map.</param>
         private bool OpenWorkers(Dictionary<int, TreeNode> work)
         {
-            foreach(var item in work)
+            foreach (var item in work)
             {
                 if (item.Value == null)
                 {
@@ -128,6 +153,11 @@ namespace AoC2018.Lib
             return false;
         }
 
+        /// <summary>
+        /// Do have all workers are idle.
+        /// </summary>
+        /// <returns><c>true</c>, if all workers are idle, <c>false</c> otherwise.</returns>
+        /// <param name="work">Worker map.</param>
         private bool NoWorkers(Dictionary<int, TreeNode> work)
         {
             foreach (var item in work)
@@ -141,7 +171,11 @@ namespace AoC2018.Lib
             return true;
         }
 
-
+        /// <summary>
+        /// Parses the tree.
+        /// </summary>
+        /// <returns>The tree.</returns>
+        /// <param name="lines">Line of tree description.</param>
         private SortedSet<TreeNode> ParseTree(string[] lines)
         {
             Dictionary<string, TreeNode> nodes = new Dictionary<string, TreeNode>();
@@ -189,24 +223,62 @@ namespace AoC2018.Lib
             return startNodes;
         }
 
-
+        /// <summary>
+        /// Tree node.
+        /// </summary>
         public class TreeNode
         {
+            /// <summary>
+            /// The children.
+            /// </summary>
             private SortedSet<TreeNode> children = new SortedSet<TreeNode>(new TreeNodeCompare());
+
+            /// <summary>
+            /// The prerequements.
+            /// </summary>
             private SortedSet<TreeNode> prerequements = new SortedSet<TreeNode>(new TreeNodeCompare());
+
+            /// <summary>
+            /// The name.
+            /// </summary>
             private string name;
+
+            /// <summary>
+            /// The finished.
+            /// </summary>
             private int finished;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:AoC2018.Lib.Day07.TreeNode"/> class.
+            /// </summary>
+            /// <param name="name">Name of the node.</param>
             public TreeNode(string name)
             {
                 this.name = name;
             }
 
+            /// <summary>
+            /// Gets the name.
+            /// </summary>
+            /// <value>The name.</value>
             public string Name { get => this.name; private set => this.name = value; }
+
+            /// <summary>
+            /// Gets or sets the finished.
+            /// </summary>
+            /// <value>The finished.</value>
             public int Finished { get => this.finished; set => this.finished = value; }
 
+            /// <summary>
+            /// Gets the children.
+            /// </summary>
+            /// <value>The children.</value>
             public SortedSet<TreeNode> Children { get => this.children; }
 
+            /// <summary>
+            /// Adds the child.
+            /// </summary>
+            /// <param name="node">New child node.</param>
             public void AddChild(TreeNode node)
             {
                 this.children.Add(node);
@@ -214,11 +286,20 @@ namespace AoC2018.Lib
                 node.AddPrereq(this);
             }
 
+            /// <summary>
+            /// Adds the prereq.
+            /// </summary>
+            /// <param name="node">New pre node.</param>
             public void AddPrereq(TreeNode node)
             {
                 this.prerequements.Add(node);
             }
 
+            /// <summary>
+            /// Check if node is ready.
+            /// </summary>
+            /// <returns><c>true</c>, if ready was ised, <c>false</c> otherwise.</returns>
+            /// <param name="ready">Is ready.</param>
             public bool IsReady(HashSet<TreeNode> ready)
             {
                 bool res = true;
@@ -231,11 +312,15 @@ namespace AoC2018.Lib
                 return res;
             }
 
+            /// <summary>
+            /// Traverse this instance.
+            /// </summary>
+            /// <returns>The traverse.</returns>
             public string Traverse()
             {
                 string res = this.name;
 
-                foreach(TreeNode child in this.children)
+                foreach (TreeNode child in this.children)
                 {
                     res += child.Traverse();
                 }
@@ -243,8 +328,17 @@ namespace AoC2018.Lib
                 return res;
             }
 
+            /// <summary>
+            /// Tree node compare.
+            /// </summary>
             public class TreeNodeCompare : IComparer<TreeNode>
             {
+                /// <summary>
+                /// Compare the specified x and y.
+                /// </summary>
+                /// <returns>The compare.</returns>
+                /// <param name="x">The x coordinate.</param>
+                /// <param name="y">The y coordinate.</param>
                 public int Compare(TreeNode x, TreeNode y)
                 {
                     return string.Compare(x.Name, y.Name);

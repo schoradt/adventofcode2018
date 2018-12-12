@@ -1,11 +1,23 @@
-﻿using System;
+﻿// <copyright file="Day09Test.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
 namespace AoC2018.Test
 {
     using AoC2018.Lib;
     using Xunit;
 
+    /// <summary>
+    /// Day09 test.
+    /// </summary>
     public class Day09Test
     {
+        /// <summary>
+        /// Tests the part1.
+        /// </summary>
+        /// <param name="input">Input line.</param>
+        /// <param name="expected">Expected output.</param>
         [Theory]
         [InlineData("9 players; last marble is worth 25 points", 32)]
         [InlineData("10 players; last marble is worth 1618 points", 8317)]
@@ -19,6 +31,5 @@ namespace AoC2018.Test
 
             Assert.Equal(expected, day09.Part1(input));
         }
-
     }
 }

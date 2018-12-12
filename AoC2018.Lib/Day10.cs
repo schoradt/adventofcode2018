@@ -1,22 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="Day10.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
 
 namespace AoC2018.Lib
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Day10 solution class.
+    /// </summary>
     public class Day10
     {
+        /// <summary>
+        /// Solution of part 1.
+        /// </summary>
+        /// <returns>The part1.</returns>
+        /// <param name="lines">Input lines.</param>
+        /// <param name="seconds">Number of seconds to run the simulation.</param>
         public int Part1(string[] lines, int seconds)
         {
             List<Point> points = this.Parse(lines);
 
             for (int i = 0; i < seconds; i++)
             {
-                Simulate(points, i);
+                this.Simulate(points, i);
             }
 
             return 0;
         }
 
+        /// <summary>
+        /// Simulate the specified points and second.
+        /// </summary>
+        /// <param name="points">Points to move.</param>
+        /// <param name="second">Second to compute.</param>
         private void Simulate(List<Point> points, int second)
         {
             HashSet<Tuple<int, int>> moved = new HashSet<Tuple<int, int>>();
@@ -54,8 +73,6 @@ namespace AoC2018.Lib
                 moved.Add(t);
             }
 
-            //Console.WriteLine("BOUNDS " + second + " -> " + Math.Abs(maxX - minX) + " (" + minX + " " + maxX + ") " + Math.Abs(maxY - minY) + " (" + minY + " " + maxY + ")");
-
             if (Math.Abs(maxX - minX) < 100 && Math.Abs(maxY - minY) < 100)
             {
                 for (int i = minY; i <= maxY; i++)
@@ -70,7 +87,6 @@ namespace AoC2018.Lib
                         {
                             Console.Write(". ");
                         }
-
                     }
 
                     Console.WriteLine();
@@ -78,6 +94,11 @@ namespace AoC2018.Lib
             }
         }
 
+        /// <summary>
+        /// Parse the specified lines.
+        /// </summary>
+        /// <returns>List of points with velocity.</returns>
+        /// <param name="lines">Input lines.</param>
         private List<Point> Parse(string[] lines)
         {
             List<Point> res = new List<Point>();
@@ -107,25 +128,55 @@ namespace AoC2018.Lib
             return res;
         }
 
+        /// <summary>
+        /// Point class.
+        /// </summary>
         public class Point
         {
-            int startX;
-            int startY;
+            /// <summary>
+            /// The start x.
+            /// </summary>
+            private int startX;
 
-            int velocityX;
-            int velocityY;
+            /// <summary>
+            /// The start y.
+            /// </summary>
+            private int startY;
 
+            /// <summary>
+            /// The velocity x.
+            /// </summary>
+            private int velocityX;
+
+            /// <summary>
+            /// The velocity y.
+            /// </summary>
+            private int velocityY;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:AoC2018.Lib.Day10.Point"/> class.
+            /// </summary>
+            /// <param name="x">The x coordinate.</param>
+            /// <param name="y">The y coordinate.</param>
+            /// <param name="vx">The x velocity.</param>
+            /// <param name="vy">The y velocity.</param>
             public Point(int x, int y, int vx, int vy)
             {
                 this.startX = x;
                 this.startY = y;
+
                 this.velocityX = vx;
                 this.velocityY = vy;
             }
 
+            /// <summary>
+            /// Move the point by specified seconds.
+            /// </summary>
+            /// <returns>Coordinates of target point.</returns>
+            /// <param name="second">Seconds to fly.</param>
             public Tuple<int, int> Move(int second)
             {
-                return new Tuple<int, int>(startX + velocityX * second, startY + velocityY * second);
+                return new Tuple<int, int>(this.startX + (this.velocityX * second), this.startY + (this.velocityY * second));
             }
         }
     }
