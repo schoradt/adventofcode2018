@@ -2,13 +2,11 @@
 //     GPL v3
 // </copyright>
 // <author>Sven Schoradt</author>
-using System;
 
 namespace AoC2018.Lib
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Day05 solution.
@@ -33,17 +31,17 @@ namespace AoC2018.Lib
 
             do
             {
-                count = line.Count();
+                count = line.Length;
 
                 foreach (char c in chars)
                 {
-                    line = line.Replace("" + c + char.ToUpper(c), string.Empty);
-                    line = line.Replace("" + char.ToUpper(c) + c, string.Empty);
+                    line = line.Replace(string.Empty + c + char.ToUpper(c), string.Empty);
+                    line = line.Replace(string.Empty + char.ToUpper(c) + c, string.Empty);
                 }
             }
-            while (count > line.Count() && line.Any());
+            while (count > line.Length && line.Any());
 
-            return line.Count();
+            return line.Length;
         }
 
         /// <summary>
@@ -66,8 +64,8 @@ namespace AoC2018.Lib
             {
                 string testLine = line;
 
-                testLine = testLine.Replace("" + remove, string.Empty);
-                testLine = testLine.Replace("" + char.ToUpper(remove), string.Empty);
+                testLine = testLine.Replace(string.Empty + remove, string.Empty);
+                testLine = testLine.Replace(string.Empty + char.ToUpper(remove), string.Empty);
 
                 int react = this.Part1(testLine);
 

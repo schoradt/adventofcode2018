@@ -1,10 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="Day06.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
 
 namespace AoC2018.Lib
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Day 6 sollution class.
+    /// </summary>
     public class Day06
     {
+        /// <summary>
+        /// Part1 of the exercise.
+        /// </summary>
+        /// <returns>Size of the non infinit area.</returns>
+        /// <param name="lines">Puzzle input.</param>
         public int Part1(string[] lines)
         {
             List<Point> points = new List<Point>();
@@ -73,7 +86,7 @@ namespace AoC2018.Lib
                     int id = 0;
                     int min = int.MaxValue;
 
-                    foreach(var point in points)
+                    foreach (var point in points)
                     {
                         int dis = matrix[i, j].Distance(point);
 
@@ -81,7 +94,8 @@ namespace AoC2018.Lib
                         {
                             min = dis;
                             id = point.Id;
-                        } else if (dis == min)
+                        } 
+                        else if (dis == min)
                         {
                             id = 0;
                         }
@@ -93,7 +107,7 @@ namespace AoC2018.Lib
 
             int maxArea = 0;
 
-            foreach(var point in points)
+            foreach (var point in points)
             {
                 bool inf = false;
                 int count = 0;
@@ -111,7 +125,6 @@ namespace AoC2018.Lib
                                 inf = true;
                             }
                         }
-
                     }
                 }
 
@@ -119,13 +132,17 @@ namespace AoC2018.Lib
                 {
                     maxArea = count;
                 }
-
             }
-
 
             return maxArea;
         }
 
+        /// <summary>
+        /// Part 2 of the puzzle.
+        /// </summary>
+        /// <returns>What is the size of the region containing all locations which have a total distance to all given coordinates of less than 10000?</returns>
+        /// <param name="lines">Puzzle input.</param>
+        /// <param name="maxDistance">Max distance.</param>
         public int Part2(string[] lines, int maxDistance)
         {
             List<Point> points = new List<Point>();
@@ -218,14 +235,37 @@ namespace AoC2018.Lib
             return count;
         }
 
-        class Point
+        /// <summary>
+        /// Point class.
+        /// </summary>
+        public class Point
         {
-            int x;
-            int y;
+            /// <summary>
+            /// The x.
+            /// </summary>
+            private int x;
 
-            int id;
-            int total;
+            /// <summary>
+            /// The y.
+            /// </summary>
+            private int y;
 
+            /// <summary>
+            /// The identifier.
+            /// </summary>
+            private int id;
+
+            /// <summary>
+            /// The total area around this point.
+            /// </summary>
+            private int total;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:AoC2018.Lib.Day06.Point"/> class.
+            /// </summary>
+            /// <param name="id">Identifier of the point.</param>
+            /// <param name="x">The x coordinate.</param>
+            /// <param name="y">The y coordinate.</param>
             public Point(int id, int x, int y)
             {
                 this.id = id;
@@ -233,14 +273,38 @@ namespace AoC2018.Lib
                 this.y = y;
             }
 
+            /// <summary>
+            /// Gets the x.
+            /// </summary>
+            /// <value>The x.</value>
             public int X { get => this.x; internal set => this.x = value; }
+
+            /// <summary>
+            /// Gets the y.
+            /// </summary>
+            /// <value>The y.</value>
             public int Y { get => this.y; internal set => this.y = value; }
+
+            /// <summary>
+            /// Gets or sets the identifier.
+            /// </summary>
+            /// <value>The identifier.</value>
             public int Id { get => this.id; set => this.id = value; }
+
+            /// <summary>
+            /// Gets or sets the total.
+            /// </summary>
+            /// <value>The total.</value>
             public int Total { get => this.total; set => this.total = value; }
 
-            public int Distance(Point p)
+            /// <summary>
+            /// Distance to the given point.
+            /// </summary>
+            /// <returns>The distance.</returns>
+            /// <param name="point">Other point.</param>
+            public int Distance(Point point)
             {
-                return Math.Abs(this.x - p.x) + Math.Abs(this.y - p.y);
+                return Math.Abs(this.x - point.x) + Math.Abs(this.y - point.y);
             }
         }
     }

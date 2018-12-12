@@ -1,33 +1,57 @@
-﻿namespace AoC2018.Lib
+﻿// <copyright file="Day09.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
+namespace AoC2018.Lib
 {
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Day09 solution class.
+    /// </summary>
     public class Day09
     {
-        public Int64 Part1(string line)
+        /// <summary>
+        /// Solution of part 1 of the puzzle.
+        /// </summary>
+        /// <returns>The part1.</returns>
+        /// <param name="line">Input line.</param>
+        public long Part1(string line)
         {
             int players = int.Parse(line.Substring(0, line.IndexOf(' ', 0)));
             int end = int.Parse(line.Substring(line.IndexOf(' ', 0) + 31, line.IndexOf(' ', line.IndexOf(' ', 0) + 31) - line.IndexOf(' ', 0) - 31));
 
-            return Play(players, end);
+            return this.Play(players, end);
         }
 
-        public Int64 Part2(string line)
+        /// <summary>
+        /// Solution of part 2.
+        /// </summary>
+        /// <returns>The part2.</returns>
+        /// <param name="line">Input line.</param>
+        public long Part2(string line)
         {
             int players = int.Parse(line.Substring(0, line.IndexOf(' ', 0)));
             int end = int.Parse(line.Substring(line.IndexOf(' ', 0) + 31, line.IndexOf(' ', line.IndexOf(' ', 0) + 31) - line.IndexOf(' ', 0) - 31));
 
-            return Play(players, end * 100);
+            return this.Play(players, end * 100);
         }
 
-        private Int64 Play(int players, int end)
+        /// <summary>
+        /// Play the specified players and end.
+        /// </summary>
+        /// <returns>The play.</returns>
+        /// <param name="players">Number of players.</param>
+        /// <param name="end">End value.</param>
+        private long Play(int players, int end)
         {
-            Boolean print = false;
+            bool print = false;
 
             LinkedList<int> game = new LinkedList<int>();
 
-            Dictionary<int, Int64> result = new Dictionary<int, Int64>();
+            Dictionary<int, long> result = new Dictionary<int, long>();
 
             for (int j = 0; j < players; j++)
             {
@@ -106,8 +130,6 @@
                         pos = game.First;
                     }
 
-                    //Console.WriteLine("Insert on " + pos);
-
                     game.AddAfter(pos, i);
 
                     pos = pos.Next;
@@ -132,12 +154,11 @@
 
                     Console.WriteLine();
                 }
-
             }
 
-            Int64 max = 0;
+            long max = 0;
 
-            foreach (Int64 v in result.Values)
+            foreach (long v in result.Values)
             {
                 if (v > max)
                 {
@@ -146,12 +167,17 @@
             }
 
             return max;
-
         }
 
-        int mod(int x, int m)
+        /// <summary>
+        /// Mod the specified x and m.
+        /// </summary>
+        /// <returns>The mod.</returns>
+        /// <param name="x">Number value.</param>
+        /// <param name="m">Modulo value</param>
+        private int Mod(int x, int m)
         {
-            return (x % m + m) % m;
+            return ((x % m) + m) % m;
         }
     }
 }

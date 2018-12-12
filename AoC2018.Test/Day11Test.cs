@@ -1,11 +1,25 @@
-﻿using System;
+﻿// <copyright file="Day11Test.cs">
+//     GPL v3
+// </copyright>
+// <author>Sven Schoradt</author>
+
 namespace AoC2018.Test
 {
     using AoC2018.Lib;
     using Xunit;
 
+    /// <summary>
+    /// Day11 test.
+    /// </summary>
     public class Day11Test
     {
+        /// <summary>
+        /// Tests the power level.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="gsn">Gsn number.</param>
+        /// <param name="expected">Expected output.</param>
         [Theory]
         [InlineData(3, 5, 8, 4)]
         [InlineData(122, 79, 57, -5)]
@@ -18,6 +32,13 @@ namespace AoC2018.Test
             Assert.Equal(expected, day11.ComutePowerLevel(x, y, gsn));
         }
 
+        /// <summary>
+        /// Tests the powerful square.
+        /// </summary>
+        /// <param name="gsn">Gsn number.</param>
+        /// <param name="expectedX">Expected x.</param>
+        /// <param name="expectedY">Expected y.</param>
+        /// <param name="expectedPower">Expected power.</param>
         [Theory]
         [InlineData(18, 33, 45, 0)]
         [InlineData(42, 21, 61, 0)]
@@ -32,6 +53,13 @@ namespace AoC2018.Test
             Assert.Equal(p, day11.PowerfulSquare(raster, gsn, 3));
         }
 
+        /// <summary>
+        /// Tests the powerful square2.
+        /// </summary>
+        /// <param name="gsn">Gsn number.</param>
+        /// <param name="expectedX">Expected x.</param>
+        /// <param name="expectedY">Expected y.</param>
+        /// <param name="expectedPower">Expected power.</param>
         [Theory]
         [InlineData(18, 90, 269, 16)]
         [InlineData(42, 232, 251, 12)]
