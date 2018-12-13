@@ -44,14 +44,15 @@ namespace AoC2018.Lib
                 Stopwatch sw = Stopwatch.StartNew();
                 Result p = this.PowerfulSquare(raster, gridSerialNumber, i);
 
-                Console.WriteLine("Compute size " + i + " (" + sw.ElapsedMilliseconds + " ms)");
-
                 if (min < p.Power)
                 {
                     point = p;
                     min = p.Power;
+                }
 
-                    Console.WriteLine("min " + point.X + "," + point.Y + "," + point.Size);
+                if (p.Power < 0)
+                {
+                    return point.X + "," + point.Y + "," + point.Size;
                 }
             }
 

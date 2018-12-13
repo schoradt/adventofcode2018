@@ -18,25 +18,104 @@ namespace AoC2018.Lib
         /// </summary>
         /// <returns>The part1.</returns>
         /// <param name="lines">Input lines.</param>
-        /// <param name="seconds">Number of seconds to run the simulation.</param>
-        public int Part1(string[] lines, int seconds)
+        public string Part1(string[] lines)
         {
             List<Point> points = this.Parse(lines);
 
-            for (int i = 0; i < seconds; i++)
-            {
-                this.Simulate(points, i);
-            }
+            int second = this.Simulate(points);
 
-            return 0;
+            string[] res = this.Output(points, second);
+
+            return string.Join("\n", res);
+        }
+
+        /// <summary>
+        /// Solution of part 1.
+        /// </summary>
+        /// <returns>The part1.</returns>
+        /// <param name="lines">Input lines.</param>
+        public int Part2(string[] lines)
+        {
+            List<Point> points = this.Parse(lines);
+
+            int second = this.Simulate(points);
+
+            return second;
         }
 
         /// <summary>
         /// Simulate the specified points and second.
         /// </summary>
+        /// <returns>Soconds of simulation end.</returns>
         /// <param name="points">Points to move.</param>
-        /// <param name="second">Second to compute.</param>
-        private void Simulate(List<Point> points, int second)
+        private int Simulate(List<Point> points)
+        {
+            int width = int.MaxValue;
+            int height = int.MaxValue;
+
+            bool stop = false;
+
+            int second = 0;
+
+            do
+            {
+                second++;
+
+                HashSet<Tuple<int, int>> moved = new HashSet<Tuple<int, int>>();
+
+                int minX = int.MaxValue;
+                int maxX = int.MinValue;
+
+                int minY = int.MaxValue;
+                int maxY = int.MinValue;
+
+                foreach (Point p in points)
+                {
+                    Tuple<int, int> t = p.Move(second);
+
+                    if (minX > t.Item1)
+                    {
+                        minX = t.Item1;
+                    }
+
+                    if (minY > t.Item2)
+                    {
+                        minY = t.Item2;
+                    }
+
+                    if (maxX < t.Item1)
+                    {
+                        maxX = t.Item1;
+                    }
+
+                    if (maxY < t.Item2)
+                    {
+                        maxY = t.Item2;
+                    }
+
+                    moved.Add(t);
+                }
+
+                if (width <= Math.Abs(maxX - minX) && height <= Math.Abs(maxY  - minY))
+                {
+                    stop = true;
+                }
+
+                width = Math.Abs(maxX - minX);
+                height = Math.Abs(maxY - minY);
+            }
+            while (!stop);
+
+            return second - 1;
+        }
+
+        /// <summary>
+        /// Output the specified points and second.
+        /// </summary>
+        /// <returns>The output.</returns>
+        /// <param name="points">Point list.</param>
+        /// <param name="second">Second to display.</param>
+        private string[] Output(List<Point> points, int second)
         {
             HashSet<Tuple<int, int>> moved = new HashSet<Tuple<int, int>>();
 
@@ -73,25 +152,24 @@ namespace AoC2018.Lib
                 moved.Add(t);
             }
 
-            if (Math.Abs(maxX - minX) < 100 && Math.Abs(maxY - minY) < 100)
-            {
-                for (int i = minY; i <= maxY; i++)
-                {
-                    for (int j = minX; j <= maxX; j++)
-                    {
-                        if (moved.Contains(new Tuple<int, int>(j, i)))
-                        {
-                            Console.Write("# ");
-                        }
-                        else
-                        {
-                            Console.Write(". ");
-                        }
-                    }
+            string[] lines = new string[maxY - minY + 1];
 
-                    Console.WriteLine();
+            for (int i = minY; i <= maxY; i++)
+            {
+                for (int j = minX; j <= maxX; j++)
+                {
+                    if (moved.Contains(new Tuple<int, int>(j, i)))
+                    {
+                        lines[i - minY] += "#";
+                    }
+                    else
+                    {
+                        lines[i - minY] += ".";
+                    }
                 }
             }
+
+            return lines;
         }
 
         /// <summary>

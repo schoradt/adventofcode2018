@@ -43,5 +43,36 @@ namespace AoC2018.Test
 
             Assert.Equal(325, day12.Part1(input));
         }
+
+        /// <summary>
+        /// Tests the part2.
+        /// </summary>
+        [Fact]
+        public void TestPart2()
+        {
+            string[] input = new string[]
+            {
+                "initial state: #..#.#..##......###...###",
+                string.Empty,
+                "...## => #",
+                "..#.. => #",
+                ".#... => #",
+                ".#.#. => #",
+                ".#.## => #",
+                ".##.. => #",
+                ".#### => #",
+                "#.#.# => #",
+                "#.### => #",
+                "##.#. => #",
+                "##.## => #",
+                "###.. => #",
+                "###.# => #",
+                "####. => #"
+                };
+
+            Day12 day12 = new Day12();
+
+            Assert.Equal(999999999374, day12.Part2(input));
+        }
     }
 }
