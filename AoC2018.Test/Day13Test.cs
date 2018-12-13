@@ -14,6 +14,9 @@ namespace AoC2018.Test
     /// </summary>
     public class Day13Test
     {
+        /// <summary>
+        /// Tests the part1.
+        /// </summary>
         [Fact]
         public void TestPart1()
         {
@@ -29,7 +32,29 @@ namespace AoC2018.Test
 
             Day13 day13 = new Day13();
 
-            Assert.Equal(new Tuple<int,int>(7,3), day13.Part1(input));
+            Assert.Equal(new Tuple<int, int>(7, 3), day13.Part1(input));
+        }
+    
+        /// <summary>
+        /// Tests the part2.
+        /// </summary>
+        [Fact]
+        public void TestPart2()
+        {
+            string[] input = new string[]
+            {
+                "/>-<\\  ",
+                "|   |  ",
+                "| /<+-\\",
+                "| | | v",
+                "\\>+</ |",
+                "  |   ^",
+                "  \\<->/"
+                };
+
+            Day13 day13 = new Day13();
+
+            Assert.Equal(new Tuple<int, int>(6, 4), day13.Part2(input));
         }
     }
 }
