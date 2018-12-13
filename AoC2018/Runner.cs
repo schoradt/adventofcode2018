@@ -30,21 +30,23 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            runner.Day01();
-            runner.Day02();
-            runner.Day03();
-            runner.Day04();
-            runner.Day05();
-            runner.Day06();
-            runner.Day07();
-            runner.Day08();
-            runner.Day09();
+            //runner.Day01();
+            //runner.Day02();
+            //runner.Day03();
+            //runner.Day04();
+            //runner.Day05();
+            //runner.Day06();
+            //runner.Day07();
+            //runner.Day08();
+            //runner.Day09();
 
             // need optimisation or more work to include into the
             // general run
             // runner.Day10();
             // runner.Day11();
-            runner.Day12();
+            //runner.Day12();
+            runner.Day13();
+
         }
 
         /// <summary>
@@ -243,6 +245,22 @@ namespace AoC2018
 
             this.sw = Stopwatch.StartNew();
             Console.WriteLine("Day 12 Part 2: " + day12.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        /// <summary>
+        /// Day13 solution runner.
+        /// </summary>
+        public void Day13()
+        {
+            Day13 day13 = new Day13();
+
+            string[] lines = System.IO.File.ReadAllLines(@"data/day13.txt");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 12 Part 1: " + day13.Part1(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            //Console.WriteLine("Day 12 Part 2: " + day12.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
