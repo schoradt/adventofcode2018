@@ -370,7 +370,7 @@ namespace AoC2018.Lib
                         case 0:
                             this.X--;
 
-                            switch (this.raster[this.X, this.Y])
+                            switch (raster[this.X, this.Y])
                             {
                                 case '/':
                                     this.direction = 3;

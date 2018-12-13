@@ -39,11 +39,8 @@ namespace AoC2018
             runner.Day07();
             runner.Day08();
             runner.Day09();
-
-            // need optimisation or more work to include into the
-            // general run
-            // runner.Day10();
-            // runner.Day11();
+            runner.Day10();
+            runner.Day11();
             runner.Day12();
             runner.Day13();
         }
@@ -209,11 +206,11 @@ namespace AoC2018
             string[] lines = System.IO.File.ReadAllLines(@"data/day10.txt");
 
             this.sw = Stopwatch.StartNew();
-            Console.WriteLine("Day 10 Part 1: " + day10.Part1(lines, 10125) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+            Console.WriteLine("Day 10 Part 1: \n" + day10.Part1(lines) + "\n (" + this.sw.ElapsedMilliseconds + " ms) ");
 
             this.sw = Stopwatch.StartNew();
 
-            // Console.WriteLine("Day 10 Part 2: " + day09.Part2(line) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+            Console.WriteLine("Day 10 Part 2: " + day10.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
 
         /// <summary>
