@@ -15,13 +15,9 @@ namespace AoC2018.Lib
         {
             Kitchen kitchen = new Kitchen();
 
-            //kitchen.Debug();
-
             do
             {
                 kitchen.Cook();
-
-                //kitchen.Debug();
             }
             while (!kitchen.MoreRecipesThen(nextTenFrom + 10));
 
@@ -34,26 +30,11 @@ namespace AoC2018.Lib
 
             int position = -1;
 
-            int run = 0;
-
             Stopwatch sw = Stopwatch.StartNew();
 
             do
             {
-                run++;
-
-                if (run == 10 && false)
-                {
-                    Console.WriteLine("RUNS " + run + " " + " (" + sw.ElapsedMilliseconds + " ms) ");
-                    sw = Stopwatch.StartNew();
-
-                    return 0;
-                    //kitchen.Debug();
-                }
-
                 kitchen.Cook();
-
-                //kitchen.Debug();
 
                 position = kitchen.TestScoreSequence();
             }
@@ -87,11 +68,7 @@ namespace AoC2018.Lib
                     test.Add(int.Parse("" + c));
                 }
 
-                Console.WriteLine(String.Join(" ", test));
-
                 test.Reverse();
-
-                Console.WriteLine(String.Join(" ", test));
             }
 
             public void Cook()
@@ -175,24 +152,16 @@ namespace AoC2018.Lib
             {
                 int pos = 0;
 
-                //this.Debug();
-
                 if (recipes.Count < test.Count)
                 {
-                    //Console.WriteLine("to short ");
-
                     return -1;
                 }
 
                 for (int i = recipes.Count - 1; i >= Math.Max(0, recipes.Count - 10); i--)
                 {
-                    //Console.WriteLine("test " + recipes[i] + " " + test[pos]);
-
                     if (recipes[i] == test[pos])
                     {
                         pos++;
-
-                        //Console.WriteLine("found " + pos);
                     }
                     else
                     {
