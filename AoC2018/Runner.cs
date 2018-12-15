@@ -30,19 +30,22 @@ namespace AoC2018
 
             Runner runner = new Runner();
 
-            runner.Day01();
-            runner.Day02();
-            runner.Day03();
-            runner.Day04();
-            runner.Day05();
-            runner.Day06();
-            runner.Day07();
-            runner.Day08();
-            runner.Day09();
-            runner.Day10();
-            runner.Day11();
-            runner.Day12();
-            runner.Day13();
+            //runner.Day01();
+            //runner.Day02();
+            //runner.Day03();
+            //runner.Day04();
+            //runner.Day05();
+            //runner.Day06();
+            //runner.Day07();
+            //runner.Day08();
+            //runner.Day09();
+            //runner.Day10();
+            //runner.Day11();
+            //runner.Day12();
+            //runner.Day13();
+
+            runner.Day14();
+
         }
 
         /// <summary>
@@ -253,10 +256,24 @@ namespace AoC2018
             string[] lines = System.IO.File.ReadAllLines(@"data/day13.txt");
 
             this.sw = Stopwatch.StartNew();
-            Console.WriteLine("Day 12 Part 1: " + day13.Part1(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+            Console.WriteLine("Day 13 Part 1: " + day13.Part1(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
 
             this.sw = Stopwatch.StartNew();
-            Console.WriteLine("Day 12 Part 2: " + day13.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+            Console.WriteLine("Day 13 Part 2: " + day13.Part2(lines) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+        }
+
+        /// <summary>
+        /// Day13 solution runner.
+        /// </summary>
+        public void Day14()
+        {
+            Day14 day14 = new Day14();
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 14 Part 1: " + day14.Part1(637061) + " (" + this.sw.ElapsedMilliseconds + " ms) ");
+
+            this.sw = Stopwatch.StartNew();
+            Console.WriteLine("Day 14 Part 2: " + day14.Part2("637061") + " (" + this.sw.ElapsedMilliseconds + " ms) ");
         }
     }
 }
