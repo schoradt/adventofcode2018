@@ -23,6 +23,7 @@ namespace AoC2018.Lib
                     round++;
                 }
 
+                Console.Clear();
                 Console.WriteLine("Round " + round);
 
                 g.Debug();
@@ -83,6 +84,34 @@ namespace AoC2018.Lib
 
                 combats.AddRange(elves);
                 combats.AddRange(goblins);
+
+                for (int j = 0; j < height; j++)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        RasterElement re = raster[i, j];
+
+                        if (i > 0)
+                        {
+                            re.Left = raster[i - 1, j];
+                        }
+
+                        if (j > 0)
+                        {
+                            re.Up = raster[i, j - 1];
+                        }
+
+                        if (i < width - 1)
+                        {
+                            re.Right = raster[i + 1, j];
+                        }
+
+                        if (j < height - 1)
+                        {
+                            re.Down = raster[i, j + 1];
+                        }
+                    }
+                }
             }
 
             public bool Round()
@@ -99,11 +128,9 @@ namespace AoC2018.Lib
                         return false;
                     }
 
-                    c.Debug();
+                    this.Move(raster[c.X, c.Y]);
 
-                    this.Move(c);
-
-                    this.Attack(c);
+                    this.Attack(raster[c.X, c.Y]);
                 }
 
                 return true;
@@ -135,8 +162,12 @@ namespace AoC2018.Lib
                 return sum;
             }
 
-            private void Attack(Combat c)
+            private void Attack(RasterElement re)
             {
+                if (re.Combat == null) return;
+
+                Combat c = re.Combat;
+
                 if (c.HitPoints < 0)
                 {
                     return;
@@ -149,7 +180,7 @@ namespace AoC2018.Lib
                     type = 2;
                 }
 
-                List<Combat> enemies = GetEnemies(c, type);
+                List<RasterElement> enemies = GetEnemies(re, type);
 
                 enemies.Sort(this.CompareEnemies);
 
@@ -158,24 +189,24 @@ namespace AoC2018.Lib
                     return;
                 }
 
-                Combat target = enemies.First();
+                RasterElement target = enemies.First();
 
-                target.HitPoints -= 3;
+                target.Combat.HitPoints -= 3;
 
-                if (target.HitPoints < 0)
+                if (target.Combat.HitPoints < 0)
                 {
-                    Console.Write("KILL ");
-                    target.Debug();
+                    //Console.Write("KILL ");
+                    //target.Combat.Debug();
 
-                    raster[target.X, target.Y].Combat = null;
+                    combats.Remove(target.Combat);
 
-                    combats.Remove(target);
+                    target.Combat = null;
                 }
             }
 
-            private int CompareEnemies(Combat x, Combat y)
+            private int CompareEnemies(RasterElement x, RasterElement y)
             {
-                int hitCompare = x.HitPoints.CompareTo(y.HitPoints);
+                int hitCompare = x.Combat.HitPoints.CompareTo(y.Combat.HitPoints);
 
                 if (hitCompare != 0)
                 {
@@ -185,31 +216,37 @@ namespace AoC2018.Lib
                 return Util.ComparePoints(x, y);
             }
 
-            private List<Combat> GetEnemies(Point point, int type)
+            private List<RasterElement> GetEnemies(RasterElement point, int type)
             {
-                List<Point> candidates = new List<Point>
+                RasterElement[] candidates = 
                 {
-                    new Point(point.X + 1, point.Y),
-                    new Point(point.X - 1, point.Y),
-                    new Point(point.X, point.Y + 1),
-                    new Point(point.X, point.Y - 1)
+                    point.Down,
+                    point.Left,
+                    point.Up,
+                    point.Right
                 };
 
-                List<Combat> enemies = new List<Combat>();
+                List<RasterElement> enemies = new List<RasterElement>();
                  
-                foreach (Point check in candidates)
+                foreach (RasterElement check in candidates)
                 {
-                    if (raster[check.X, check.Y].Combat != null && raster[check.X, check.Y].Combat.Type == type)
+                    if (check == null) continue;
+
+                    if (check.Combat != null && check.Combat.Type == type)
                     {
-                        enemies.Add(raster[check.X, check.Y].Combat);
+                        enemies.Add(check);
                     }
                 }
 
                 return enemies;
             }
 
-            private void Move(Combat c)
+            private void Move(RasterElement re)
             {
+                if (re.Combat == null) return;
+
+                Combat c = re.Combat;
+
                 if (c.HitPoints < 0)
                 {
                     return;
@@ -222,24 +259,11 @@ namespace AoC2018.Lib
                     type = 2;
                 }
 
-                if (NextToEnemy(c, type)) {
+                if (NextToEnemy(re, type)) {
                     return;
                 }
 
-                List<List<Point>> paths = ShortestPathToEnemy(c);
-
-                //foreach (List<Point> path in paths)
-                //{
-                //    foreach (Point p in path)
-                //    {
-                //        Console.Write(p.ToString() + " ");
-                //    }
-
-                //    Console.WriteLine();
-                //}
-
-                //Console.WriteLine();
-                //Console.WriteLine();
+                List<List<RasterElement>> paths = ShortestPathToEnemy(re);
 
                 if (paths.Count == 0)
                 {
@@ -249,18 +273,36 @@ namespace AoC2018.Lib
 
                 paths.Sort((x, y) => Util.ComparePoints(x.Last(), y.Last()));
 
-                Point step = paths.First()[1];
+                RasterElement last = paths.First().Last();
 
-                raster[c.X, c.Y].Combat = null;
+                SortedSet<RasterElement> steps = new SortedSet<RasterElement>();
 
-                raster[step.X, step.Y].Combat = c;
+                foreach (List<RasterElement> p in paths)
+                {
+                    if (p.Last().X == last.X && p.Last().Y == last.Y)
+                    {
+                        steps.Add(p[1]);
+                    }
+                }
+
+                //Point step = paths.First()[1];
+                RasterElement step = steps.First();
+
+                //c.Debug();
+                //Console.WriteLine("Move to " + step.ToString());
+
+                re.Combat = null;
+
+                step.Combat = c;
 
                 c.X = step.X;
                 c.Y = step.Y;
             }
 
-            private List<List<Point>> ShortestPathToEnemy(Combat c)
+            private List<List<RasterElement>> ShortestPathToEnemy(RasterElement re)
             {
+                Combat c = re.Combat;
+
                 int type = 1;
 
                 if (c.Type == 1)
@@ -268,114 +310,103 @@ namespace AoC2018.Lib
                     type = 2;
                 }
 
-                List<List<Point>> paths = new List<List<Point>>();
+                List<List<RasterElement>> paths = new List<List<RasterElement>>();
 
-                List<Point> basePath = new List<Point>
+                List<RasterElement> basePath = new List<RasterElement>
                 {
-                    new Point(c.X, c.Y)
+                    re
                 };
 
                 paths.Add(basePath);
 
                 bool found = false;
 
+                HashSet<string> nodes = new HashSet<string>();
+                nodes.Add(basePath.First().ToString());
+
                 do
                 {
-                    Console.WriteLine("path " + paths.First().Count());
+                    //Console.WriteLine("path " + paths.First().Count() + " " + paths.Count() + " " +paths.First().First());
 
-                    List<List<Point>> old = new List<List<Point>>(paths);
+                    List<List<RasterElement>> old = paths;
 
-                    paths.Clear();
+                    paths = new List<List<RasterElement>>();
 
-                    foreach (List<Point> path in old)
+                    HashSet<String> added = new HashSet<String>();
+
+                    foreach (List<RasterElement> path in old)
                     {
-                        //Console.Write("path ");
+                        RasterElement last = path.Last();
 
-                        //foreach (Point p in path)
-                        //{
-                        //    Console.Write(p.ToString() + " ");
-                        //}
-
-                        //Console.WriteLine();
-
-                        Point last = path.Last();
-
-                        List<Point> candidates = new List<Point>
+                        RasterElement[] candidates = 
                         {
-                            new Point(last.X + 1, last.Y),
-                            new Point(last.X - 1, last.Y),
-                            new Point(last.X, last.Y + 1),
-                            new Point(last.X, last.Y - 1)
+                            last.Up,
+                            last.Right,
+                            last.Down,
+                            last.Left
                         };
 
-                        foreach (Point candidate in candidates)
+                        foreach (RasterElement candidate in candidates)
                         {
-                            if (raster[candidate.X, candidate.Y].Free() && path.Find((x) => x.X == candidate.X && x.Y == candidate.Y) == null)
+                            if (candidate == null) continue;
+
+                            if (candidate.Free())
                             {
-                                //Console.Write("    " + candidate + " ");
+                                bool notProcessedBefore = !nodes.Contains(candidate.ToString());
 
-                                List<Point> newPath = new List<Point>(path);
-                                newPath.Add(candidate);
-
-                                bool enemy = this.NextToEnemy(candidate, type);
-
-                                if (enemy && !found)
+                                if (notProcessedBefore)
                                 {
-                                    found = true;
+                                    List<RasterElement> newPath = new List<RasterElement>(path)
+                                    {
+                                        candidate
+                                    };
 
-                                    paths.Clear();
+                                    bool enemy = this.NextToEnemy(candidate, type);
 
-                                    paths.Add(newPath);
+                                    if (enemy && !found)
+                                    {
+                                        found = true;
 
-                                    //Console.WriteLine("=> Add1 " + enemy + " " + found);
-                                }
-                                else if ((enemy && found) || !found)
-                                {
-                                    //Console.WriteLine("=> Add2 " + enemy + " " + found);
-                                    paths.Add(newPath);
-                                }
-                                else
-                                {
-                                    //Console.WriteLine("=> Ignore " + enemy + " " + found);
+                                        paths.Clear();
+
+                                        paths.Add(newPath);
+                                    }
+                                    else if ((enemy && found) || !found)
+                                    {
+                                        paths.Add(newPath);
+
+                                        added.Add(candidate.ToString());
+                                    }
                                 }
                             }
-
                         }
                     }
 
-                    //Console.WriteLine("After loop");
-
-                    //foreach (List<Point> path in paths)
-                    //{
-                    //    foreach (Point p in path)
-                    //    {
-                    //        Console.Write(p.ToString() + " ");
-                    //    }
-
-                    //    Console.WriteLine();
-                    //}
-
-                    //Console.WriteLine();
-                    //Console.WriteLine();
+                    foreach (String add in added)
+                    {
+                        nodes.Add(add);
+                    }
                 }
                 while (!found && paths.Any());
 
                 return paths;
             }
 
-            private bool NextToEnemy(Point point, int type)
+            private bool NextToEnemy(RasterElement point, int type)
             {
-                List<Point> candidates = new List<Point>
+                RasterElement[] candidates = 
                 {
-                    new Point(point.X + 1, point.Y),
-                    new Point(point.X - 1, point.Y),
-                    new Point(point.X, point.Y + 1),
-                    new Point(point.X, point.Y - 1)
+                    point.Up,
+                    point.Right,
+                    point.Down,
+                    point.Left
                 };
 
-                foreach (Point check in candidates)
+                foreach (RasterElement check in candidates)
                 {
-                    if (raster[check.X, check.Y].Combat != null && raster[check.X, check.Y].Combat.Type == type)
+                    if (check == null) continue;
+
+                    if (check.Combat != null && check.Combat.Type == type)
                     {
                         return true;
                     }
@@ -388,6 +419,8 @@ namespace AoC2018.Lib
             {
                 int width = raster.GetLength(0);
                 int heigth = raster.GetLength(1);
+
+                int k = 0;
 
                 for (int j = 0; j < heigth; j++)
                 {
@@ -413,17 +446,14 @@ namespace AoC2018.Lib
                         }
                     }
 
+                    if (k < combats.Count())
+                    {
+                        Console.Write("    ");
+                        combats[k].Debug();
+                        k++;
+                    }
+
                     Console.WriteLine();
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("Combats");
-                Console.WriteLine("=======");
-                Console.WriteLine();
-
-                foreach (Combat c in combats)
-                {
-                    c.Debug();
                 }
 
                 Console.WriteLine();
@@ -460,8 +490,6 @@ namespace AoC2018.Lib
                     }
 
                     Console.Write(string.Format("({0}, {1}) => {2}", this.X, this.Y, this.HitPoints));
-
-                    Console.WriteLine();
                 }
             }
 
@@ -470,6 +498,11 @@ namespace AoC2018.Lib
                 bool wall;
 
                 Combat combat;
+
+                RasterElement up;
+                RasterElement down;
+                RasterElement left;
+                RasterElement right;
 
                 public RasterElement(long x, long y, bool wall, Combat combat)
                     : base(x, y)
@@ -481,6 +514,11 @@ namespace AoC2018.Lib
 
                 public bool Wall { get => wall; internal set => wall = value; }
                 public Combat Combat { get => combat; set => combat = value; }
+
+                public RasterElement Up { get => up; set => up = value; }
+                public RasterElement Down { get => down; set => down = value; }
+                public RasterElement Left { get => left; set => left = value; }
+                public RasterElement Right { get => right; set => right = value; }
 
                 public bool Free()
                 {
